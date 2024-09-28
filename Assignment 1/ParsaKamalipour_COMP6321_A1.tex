@@ -1,0 +1,484 @@
+\documentclass[10pt,letter,notitlepage]{article}
+%Mise en page
+\usepackage[left=2cm, right=2cm, lines=45, top=0.8in, bottom=0.7in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{pdfpages} 
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\pagestyle{fancy}
+\newcommand\Loadedframemethod{TikZ}
+\usepackage[framemethod=\Loadedframemethod]{mdframed}
+\usepackage{tikz}
+%\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage{url}
+\usepackage{dsfont}
+\usepackage{amssymb,amsmath}
+\usepackage{xspace}
+\usepackage{comment}
+\usepackage[shortlabels]{enumitem}
+
+
+
+\usepackage{xcolor}
+
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\lhead{
+\textbf{Concordia University}
+}
+\rhead{\textbf{Fall 2024}
+}
+\chead{\textbf{
+COMP6321
+ }}
+
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\rv}{\mathbf{r}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+\newcommand{\bits}{\{ 0, 1 \}}
+
+
+\newcommand{\ea}{{et al.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\iid}{{i.i.d.}\xspace}
+\newcommand{\cf}{{cf.}\xspace}
+\newcommand{\wrt}{{w.r.t.}\xspace}
+\newcommand{\aka}{{a.k.a.}\xspace}
+\newcommand{\etc}{{etc.}\xspace}
+
+\newcommand{\ans}[1]{{\color{orange}\textsf{Ans}: #1}}
+
+
+\lfoot{}
+\cfoot{\textbf{Parsa Kamalipour (\href{mailto:parsa.kamalipour@mail.concordia.ca}{parsa.kamalipour@mail.concordia.ca}) \textcopyright 2024}}
+
+%================================
+%================================
+
+\setlength{\parskip}{1cm}
+\setlength{\parindent}{1cm}
+\tikzstyle{titregris} =
+[draw=gray,fill=white, shading = exersicetitle, %
+text=gray, rectangle, rounded corners, right,minimum height=.3cm]
+\pgfdeclarehorizontalshading{exersicebackground}{100bp}
+{color(0bp)=(green!40); color(100bp)=(black!5)}
+\pgfdeclarehorizontalshading{exersicetitle}{100bp}
+{color(0bp)=(red!40);color(100bp)=(black!5)}
+\newcounter{exercise}
+\renewcommand*\theexercise{exercice \textbf{Exercice}~n\arabic{exercise}}
+\makeatletter
+\def\mdf@@exercisepoints{}%new mdframed key:
+\define@key{mdf}{exercisepoints}{%
+\def\mdf@@exercisepoints{#1}
+}
+
+\mdfdefinestyle{exercisestyle}{%
+outerlinewidth=1em,outerlinecolor=white,%
+leftmargin=-1em,rightmargin=-1em,%
+middlelinewidth=0.5pt,roundcorner=3pt,linecolor=black,
+apptotikzsetting={\tikzset{mdfbackground/.append style ={%
+shading = exersicebackground}}},
+innertopmargin=0.1\baselineskip,
+skipabove={\dimexpr0.1\baselineskip+0\topskip\relax},
+skipbelow={-0.1em},
+needspace=0.5\baselineskip,
+frametitlefont=\sffamily\bfseries,
+settings={\global\stepcounter{exercise}},
+singleextra={%
+\node[titregris,xshift=0.5cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+firstextra={%
+\node[titregris,xshift=1cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+}
+\makeatother
+
+
+%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+\mdfdefinestyle{theoremstyle}{%
+outerlinewidth=0.01em,linecolor=black,middlelinewidth=0.5pt,%
+frametitlerule=true,roundcorner=2pt,%
+apptotikzsetting={\tikzset{mfframetitlebackground/.append style={%
+shade,left color=white, right color=blue!20}}},
+frametitlerulecolor=black,innertopmargin=1\baselineskip,%green!60,
+innerbottommargin=0.5\baselineskip,
+frametitlerulewidth=0.1pt,
+innertopmargin=0.7\topskip,skipabove={\dimexpr0.2\baselineskip+0.1\topskip\relax},
+frametitleaboveskip=1pt,
+frametitlebelowskip=1pt
+}
+\setlength{\parskip}{0mm}
+\setlength{\parindent}{10mm}
+\mdtheorem[style=theoremstyle]{exercise}{\textbf{Exercise}}
+\mdtheorem[style=theoremstyle]{Answer}{\textbf{Answers to Exercise}}
+%================Liste definition--numList-and alphList=============
+\newcounter{alphListCounter}
+\newenvironment
+{alphList}
+{\begin{list}
+{\alph{alphListCounter})}
+{\usecounter{alphListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0.2cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+\newcounter{numListCounter}
+\newenvironment
+{numList}
+{\begin{list}
+{\arabic{numListCounter})}
+{\usecounter{numListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+
+\usepackage[breaklinks=true,letterpaper=true,linkcolor=magenta,urlcolor=magenta,citecolor=black]{hyperref}
+
+\usepackage{cleveref}
+
+
+%===========================================================
+\begin{document}
+
+\begin{center}
+  \large{\textbf{COMP 6321 Machine Learning} \\ Assignment 1 Answers} \\
+
+
+$Name:$ \href{https://benymaxparsa.github.io}{Parsa Kamalipour} \; , \; $Student ID:$ 40310734
+
+\end{center}
+%\begin{center}
+%\begin{itemize}
+%    
+%
+%\item  Submit your write-up in PDF (we do not accept hand-written submissions) and all source code %in a zip file (with proper documentation)
+%as an ipynb file (with proper documentation). Your writeup should include written answers to all questions, including the reported results and plots of coding questions in a single PDF file.  Please save the output of each cell or your coding questions may NOT be graded. Write a script for each programming exercise so the TAs can easily run and verify your results. Make sure your code runs!
+%
+%\item Text in square brackets are hints that can be ignored.
+%%\end{center}
+%\end{itemize}
+%\noindent \red{NOTE} For all the exercises, you are only allowed to use the basic Python, Numpy, and matplotlib (or other libraries for plotting), unless specified otherwise.
+
+\begin{exercise}[Perceptron (7 pts)]
+\textcolor{red}{NOTE} This is a theoretical question, and you are not required to code anything. 
+\begin{enumerate}
+    \item (1.5 points) Consider the dataset shown in Table~\ref{tab:and} where $\text{x} = (x_1, x_2) \in \bits \times \bits, y \in \{ -, + \}$. Note that this dataset corresponds to the boolean function ``AND'' over the 2-bit binary input. Suppose we are training a Perceptron to learn on this dataset and we initialize the weights and the bias, $w^{(0)} = 0$ and $w^{(0)}_0=0$.
+    Please i) answer if this dataset is learnable by a Perceptron, and ii) if so, write down the weights update procedure for each iteration; if not, explain why.
+    
+    \item (1.5 points) Extending AND to any boolean functions over a 2-bit binary input, where we have $2^{2^2} = 16$ possible distinct boolean functions in total, among which how many of them can be learnable by a Perceptron? Please also write down the truth table(s) of the boolean functions that are \textbf{not learnable}, if there are any. [\blue{Hint} AND is one of the 16 boolean functions, with the output -, -, -, +. Similarly, a constant function represents two of the 16 boolean functions, with the output -, -, -, - or +, +, +, +.]
+    
+    \item (4 points) \textit{Modified Perceptron Algorithm} Recall the Perceptron algorithm we learned in class: for each ``mistake'' we update the weights by setting $w \leftarrow w + y_i\text{x}_i, w_0 \leftarrow w_0 + y_i$. Now we would like to modify this algorithm by considering a constant $c > 1$ and making modifications to the update rule $w \leftarrow w + cy_i\text{x}_i, w_0 \leftarrow w_0 + cy_i$. Let's call this algorithm ``modified Perceptron''.    
+    Please \textbf{prove or refute} that the modified Perceptron algorithm converges after the same number of mistakes as made by the Perceptron algorithm.
+    [\blue{Hint:} c.f. the convergence theorem in lecture 2]
+\end{enumerate}
+
+\end{exercise}
+
+% --------------------------------------------------------------------------------------------------------
+
+
+\begin{table}[h]
+        \centering
+        \begin{tabular}{cc|c}
+        $x_1$ & $x_2$ & $y$ \\ \hline
+        0 & 0 & - \\
+        0 & 1 & - \\
+        1 & 0 & - \\
+        1 & 1 & + \\
+    \end{tabular}
+         \caption{The Truth Table for AND Function.}
+    \label{tab:and}
+    \end{table}
+
+% --------------------------------------------------------------------------------------------------------
+
+
+\begin{Answer}
+
+	\begin{numList}
+		\item Based on the info given in this assignment, we know that we have a dataset that basically simulates the AND function for two bits, we have 2 inputs noted as $x=(x_1,x_2)$ which can only hold the value of either zero or one, we also know that our output $y\in {-1, +1}$ can only hold positive or negative sign, which means either -1 or +1.\\
+
+		\begin{alphList}
+			\item Yes! the dataset and AND function is learnable by a perceptron because we can basically divide the results in two. For example, in our scenario every combination of $x_1,x_2$ except 1,1 will results in negative sign! this clearly shows that we can separate the results with just one non-curved hyperplane.
+			\item We know that initially our weights is set as zero $w=[0,0]$ and also our bias is set as zero $w_0=0$ and our dataset is shown in table~\ref{tab:and}.\\
+			Now we have:
+			$$x_1,x_2\in {0,1}$$
+			$$y\in {-1,+1}$$
+			$$w^{(0)}=[0,0] \;, \; \; \; \; w^{(0)}_0=0$$
+			And this is our Perceptron Learning algorithm~[\ref{LearningAlgo}] showed below this question.
+			Now based on our algorithm we have:\\
+			\textbf{\textit{First Pass Through:}}\\
+			\begin{itemize}
+				\item Iteration 1:\\
+				Input: $[0,0], y=-1$\\
+				Prediction: $\hat y = 0$\\
+				Update weights: $w=[0,0], w_0=-1$
+				
+				\item Iteration 2:\\
+				Input: $[0,1], y=-1$\\
+				Prediction: $\hat y = -1$ \textbf{(CORRECT!)}\\
+				Update weights: \textbf{(NO UPDATE!)}
+				
+				\item Iteration 3:\\
+				Input: $[1,0], y=-1$\\
+				Prediction: $\hat y = -1$ \textbf{(CORRECT!)}\\
+				Update weights: \textbf{(NO UPDATE!)}
+				\item Iteration 4:\\
+				Input: $[1,1], y=+1$\\
+				Prediction: $\hat y = -1$ \textbf{(INCORRECT!)}\\
+				Update weights: $w=[1,1], w_0=0$\\
+			\end{itemize}
+
+			\textbf{\textit{Second Pass Through:}}\\
+			\begin{itemize}
+				\item Iteration 1:\\
+				Input: $[0,0], y=-1$\\
+				Prediction: $\hat y = 0$ \textbf{(INCORRECT!)}\\
+				Update weights: $w=[1,1], w_0=-1$
+				
+				\item Iteration 2:\\
+				Input: $[0,1], y=-1$\\
+				Prediction: $\hat y = 0$ \textbf{(INCORRECT!)}\\
+				Update weights: $w=[1,0], w_0=-2$
+				
+				\item Iteration 3:\\
+				Input: $[1,0], y=-1$\\
+				Prediction: $\hat y = -1$ \textbf{(CORRECT!)}\\
+				Update weights: \textbf{(NO UPDATE!)}
+				\item Iteration 4:\\
+				Input: $[1,1], y=+1$\\
+				Prediction: $\hat y = -1$ \textbf{(INCORRECT!)}\\
+				Update weights: $w=[2,1], w_0=-1$\\
+			\end{itemize}
+			
+						\textbf{\textit{Third Pass Through:}}\\
+			\begin{itemize}
+				\item Iteration 1:\\
+				Input: $[0,0], y=-1$\\
+				Prediction: $\hat y = -1$ \textbf{(CORRECT!)}\\
+				Update weights: \textbf{(NO UPDATE!)}				
+				\item Iteration 2:\\
+				Input: $[0,1], y=-1$\\
+				Prediction: $\hat y = -1$ \textbf{(CORRECT!)}\\
+				Update weights: \textbf{(NO UPDATE!)}
+				
+				\item Iteration 3:\\
+				Input: $[1,0], y=-1$\\
+				Prediction: $\hat y = -1$ \textbf{(CORRECT!)}\\
+				Update weights: \textbf{(NO UPDATE!)}
+				\item Iteration 4:\\
+				Input: $[1,1], y=+1$\\
+				Prediction: $\hat y = +1$ \textbf{(CORRECT!)}\\
+				Update weights: \textbf{(NO UPDATE!)}\\
+			\end{itemize}
+			
+			At this point we will know that we have reached the convergence and we can stop because our model learned the AND function successfully!
+		\end{alphList}
+		
+		\item Let's expand our function from AND one to every combination of 2bit boolean one!\\
+			So basically we have 16 different functions to test and lets begin:
+			\begin{alphList}
+				\item \textbf{\textit{Constant Function \#1:}}\\
+					All outputs are -1 no what the input is. \\
+					This one is \textbf{learnable} because if you look at the outputs regarding the inputs you can see that a hyperplane can divide the points (in this case all points will be in one side).
+				\item \textbf{\textit{Constant Function \#2:}}\\
+					All outputs are +1 no matter what the input is.\\
+					This one is also \textbf{learnable} due to it being linearly separable.
+					
+				\item \textbf{\textit{AND Function:}}\\
+					Output is +1 when only both inputs are 1.\\
+					This one is also \textbf{learnable} due to it being linearly separable.
+				\item \textbf{\textit{OR Function:}}\\
+					Output is +1 when at least one of the inputs are 1.\\
+					This one is also \textbf{learnable} due to it being linearly separable.
+				\item \textbf{\textit{NAND Function:}}\\
+					Output is -1 when only both inputs are 1.\\
+					This one is also \textbf{learnable} due to it being linearly separable.
+				\item \textbf{\textit{NOR Function:}}\\
+					Output is +1 when only both inputs are 0.\\
+					This one is also \textbf{learnable} due to it being linearly separable.
+				\textcolor{red}{\item \textbf{\textit{XOR Function:}}\\
+					Output is +1 when exactly one of inputs is 1.\\
+					This one is \textbf{NOT learnable} because no single line can separate the two positive outputs from the two negative ones.
+				\item \textbf{\textit{XNOR Function:}}\\
+					Output is +1 when both of the inputs equals each other.\\
+					This one is \textbf{NOT learnable} because no single line can separate the two positive outputs from the two negative ones.}
+				\item \textbf{\textit{Un-named Function \#1:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=-1,+1,-1,-1$ which makes it linearly separable since its data can be divided by one hyperplane.
+				\item \textbf{\textit{Un-named Function \#2:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=+1,-1,-1,-1$ which makes it linearly separable since its data can be divided by one hyperplane.
+				\item \textbf{\textit{Un-named Function \#3:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=+1,+1,+1,-1$ which makes it linearly separable since its data can be divided by one hyperplane.
+				\item \textbf{\textit{Un-named Function \#4:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=+1,+1,-1,+1$ which makes it linearly separable since its data can be divided by one hyperplane.	
+					\item \textbf{\textit{Un-named Function \#5:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=-1,+1,+1,+1$ which makes it linearly separable since its data can be divided by one hyperplane.
+				\item \textbf{\textit{Un-named Function \#6:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=+1,-1,+1,+1$ which makes it linearly separable since its data can be divided by one hyperplane.
+				\item \textbf{\textit{Un-named Function \#7:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=-1,+1,-1,+1$ which makes it linearly separable since its data can be divided by one hyperplane.
+				\item \textbf{\textit{Un-named Function \#8:}}
+					For input $x_1,x_2 = (0,0),(0,1),(1,0),(1,1)$ it has the following outputs: $y=-1,-1,+1,+1$ which makes it linearly separable since its data can be divided by one hyperplane\\
+			\end{alphList}
+			
+			\item Now lets solve the Modified perceptron algorithm question:\\
+				We know that:\\
+				a) there exist $w^*$ such that $y_i \frac{w^*x_i}{||w^*||} \geq \gamma > 0$ for all $i$.\\
+				b) $||x_i|| \leq R$\\
+				And the update formula was like:\\
+				$$w=w+y_ix_i$$
+				$$w_0=w_0+y_i$$
+				Then:\\
+				The perceptron will make AT MOST $(R/\gamma)^2$ mistakes.\\\\
+				
+				From all that we can get that:\\
+				
+				$$\gamma= \min_i (y_i \frac{w^*x_i}{||w^*||})$$
+				$$R=\max_i ||x_i||$$
+				
+				For our modified perceptron, our updates will be like:\\
+				$$w \leftarrow w+cy_ix_i$$
+				$$w_0 \leftarrow w_0+cy_i$$
+				For all $c>1$.\\
+				
+				Now we will assume these:\\
+				$$w^*=[Vector \;of \;weights]$$
+				$$w^k: weight \;for \;function \;F \;after \; k\; mistakes$$
+				$$K \; is\; final\; iteration$$
+				
+				And we will prove that that the modified Perceptron algorithm converges after the same number of mistakes as made by the Perceptron algorithm in this way:\\
+				$$\frac{w^*w^k}{||w^*||}=\frac{w^{k-1}w^*+cy_ix_iw^*}{||w^*||}=\frac{w^{k-1}w^*}{||w^*||}+c\frac{y_ix_iw^*}{||w^*||}$$
+				and we know that $\frac{y_ix_iw^*}{||w^*||} \geq\gamma$ thus:\\
+				$$\rightarrow \frac{w^*w^k}{||w^*||} \geq \frac{w^{k-1}w^*}{||w^*||}+c\gamma K$$\\
+				
+				After that we follow with this:\\
+				$$||w^k||^2=||w^{k-1}+cy_ix_i||^2=||w^{k-1}||^2+2cy_ix_iw^{k-1}+||cx_iy_i||^2$$
+				Which $2cy_ix_iw^{k-1}$ is a negative number and $||cx_iy_i||^2$ equals to $c^2||x_i||^2$ therefore:\\
+				$$\rightarrow ||w^k||^2 \leq ||w^{k-1}||^2+c^2R^2K$$
+				
+				Based on our last two findings we can get:\\
+				
+				$$\frac{1}{||w^k||^2}\geq \frac{1}{c^2R^2K}$$
+				$$\rightarrow \frac{1}{||w^k||}\geq \frac{1}{cR\sqrt{K}}$$
+				We plug this in and find out that:\\
+				$$Cos(w^*,w^k)\geq \frac{Kc\gamma}{\sqrt{K}Rc} \geq \sqrt{K}\frac{\gamma}{R}$$
+				As you can see in the privous step our two "c" got canceled together and it shows that no longer "c" is effecting our equations which basically means \textbf{\underline{our modified perceptron doesn't change convergence}}, we can continue to prove it further like this:\\
+				$$\rightarrow \frac{R}{\gamma} \geq \sqrt{K} \rightarrow K \leq (\frac{R}{\gamma})^2$$
+				And just like this we have proved that adding a "c" won't change the convergence.
+				
+	\end{numList}
+
+
+\end{Answer}
+
+
+\begin{algorithm}
+\caption{Perceptron Learning Algorithm}
+\label{LearningAlgo}
+\begin{algorithmic}[1]
+
+\Procedure{Learning}{$w, w_0, x, y, \textit{hyperparameter}$}  
+    \State Initialize weights $w$ and bias $w_0$
+    
+    \For{$t = 1$ to \textit{hyperparameter}}  
+        \For{$i = 0$ to $N$}
+        	\If{$y_i (w \cdot x_i + w_0) \leq 0$}
+        		\State $w_{new} = w_{old} + y_i x_i$
+				\State $w^{new}_0 = w^{old}_0 + y_i$
+        	\EndIf
+        \EndFor
+    \EndFor
+	\State Return $w,w_0$
+
+\EndProcedure
+
+\end{algorithmic}
+\end{algorithm}
+
+% --------------------------------------------------------------------------------------------------------
+
+
+
+\begin{exercise}[Logistic Regression (9 pts)]
+
+\noindent In this exercise you will implement the logistic regression algorithm and evaluate it on the dataset provided with this assignment. The training dataset is divided into five different csv files. You need to combine this into a single training dataset. Do not use any machine learning library, but feel free to use libraries for linear algebra and feel free to verify your results with existing machine learning libraries.
+
+\begin{enumerate}
+    \item (2 pts) Let $\Pr(C_1|x) = \sigma({\bf{w}}^T{\bf{x}}+w_0)$ and $\Pr(C_2|{\bf{x}}) = 1 - \sigma({\bf{w}}^T{\bf{x}}+w_0)$. Learn the parameters ${\bf{w}}$ and $w_0$ using the gradient descent algorithm. Use the maximum number of epochs to be 100 for GD. You can also use any appropriate convergence criteria to stop the GD loop before 100 epochs. Use a step size of 0.1 (or 0.01 if it is converging poorly) for GD. 
+    
+    \item (0.25 pts) After the training process, create the following plots:
+		\begin{enumerate}
+			\item test error vs the number of epochs
+			\item training error vs the number of epochs
+			\item test loss vs the number of epochs
+			\item training loss vs the number of epochs
+            \item Print the parameters ${\bf w}, w_0$ found for logistic regression.
+		\end{enumerate}
+    \item (5 pts) Now let's add a regularization term $0.5\lambda ||\bf{w}||_2^2$ to the loss function of your logistic regression algorithm. Your new loss function will be $\mathcal{L}_{new} = \mathcal{L}_{old} + 0.5\lambda ||\bf{w}||_2^2$, where $\mathcal{L}_{old}$ is the loss function of logistic regression we learned in lecture 3. Choose two values of $\lambda = \{0.5, 1\}$ and train this algorithm on the given dataset with these two values of $\lambda$. 
+    
+    \item (0.25 pts) After the training process, create the plots mentioned in step 2, for this updated logistic regression algorithm. You should have two sets of plots since you used two different values of $lambda$ to train the model.  
+    
+    \item (1.5 pts) Compared the results for step 2 with the results for the updated logistic regression with two values of $lambda$. Which of the tree algorithms performs the best? Why? Compare the values of ${\bf w}, w_0$ for all three cases. How is $\lambda$ affecting these parameter values, and the overall error?
+
+    \item (\blue{Extra Credit: 1.5 pts}) Use 5-fold cross-validation on the training dataset to find the best value for $\lambda$. Report the best $\lambda$, and also draw a plot that shows the cross-validation error of logistic regression as $\lambda$ varies. Note that the training dataset is already divided into 5 different csv files, to ease the cross-validation process. Report the test error for the best $\lambda$. Is this better than the results in steps 2, and 5? Why or why not?
+    
+\end{enumerate}
+
+\end{exercise}
+
+% --------------------------------------------------------------------------------------------------------
+
+
+
+\begin{Answer}
+
+	Please look at the ParsaKamalipour\_COMP6321\_A1.ipynb file to see my code for this question.
+
+\end{Answer}
+
+% --------------------------------------------------------------------------------------------------------
+
+
+\vspace{+0.5cm}
+
+%\par \textbf{Acknowledgement}\\
+
+%I would like to acknowledge that I used ChatGPT to help \underline{refine my grammar and sentence structure} in this document. However, the \underline{solutions and ideas presented here are entirely my own}. 
+
+
+\end{document}
+              
