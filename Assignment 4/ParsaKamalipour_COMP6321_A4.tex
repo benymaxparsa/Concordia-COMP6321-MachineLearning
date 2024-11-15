@@ -515,6 +515,129 @@ Based on the training results, I observed significant differences between the pe
 
 The presence of Dropout layers made the model more robust and helped it generalize better to unseen data, while the model without Dropout tended to memorize the training data, leading to slightly less consistent test accuracy.
 
+\section{Exercise 2, Question 1: Introduction}
+In this part of Exercise 2, I implemented a three-layer Multi-Layer Perceptron (MLP) using PyTorch and trained it on the MNIST dataset. The architecture consisted of three fully connected layers with ReLU activations, Batch Normalization, and an output layer for classification.
+
+\section{Exercise 2, Question 1: Methodology}
+The MLP model was trained with the following structure:
+\begin{itemize}
+    \item \textbf{Layer 1}: A fully connected layer from 784 (flattened 28x28 images) to 512 units, followed by a ReLU activation function.
+    \item \textbf{Layer 2}: A fully connected layer from 512 to 512 units, followed by Batch Normalization and a ReLU activation function.
+    \item \textbf{Layer 3}: A fully connected layer from 512 to 10 units, corresponding to the 10 possible digit classes.
+\end{itemize}
+
+The loss function used was Cross-Entropy Loss, and the optimizer was Stochastic Gradient Descent (SGD) with a learning rate of 0.01 and a momentum of 0.9. The model was trained for 20 epochs, and both training and test accuracies were recorded for analysis.
+
+\section{Exercise 2, Question 1: Results}
+The training and test accuracies of the MLP model are shown in Figure \ref{fig:mlp_performance}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mlp_performance.png}
+    \caption{Training and Test Accuracy of MLP on MNIST}
+    \label{fig:mlp_performance}
+\end{figure}
+
+\section{Exercise 2, Question 1: Analysis}
+Based on the training results, I observed the following:
+\begin{itemize}
+    \item \textbf{Training Accuracy}: The training accuracy increased steadily over the 20 epochs, reaching almost perfect accuracy (99.94\%) by the end. This shows that the model was able to learn the training data well.
+    \item \textbf{Test Accuracy}: The test accuracy also improved, reaching a maximum of 98.48\%. However, there was a noticeable gap between the training and test accuracies, especially in the later epochs. This indicates that the model might be slightly overfitting to the training data.
+    \item \textbf{Overfitting}: The test accuracy plateaued around 98.4\% with slight fluctuations in the later epochs, which is a sign of overfitting. The model seems to be memorizing the training data rather than generalizing well to unseen data.
+    \item \textbf{MLP Limitations}: Compared to deeper models like Convolutional Neural Networks (CNNs), the MLP with only fully connected layers may not capture spatial features of images as effectively. This could be one reason why the test accuracy did not reach the levels observed in more complex models like VGG11.
+\end{itemize}
+
+\section{Exercise 2, Question 2: Introduction}
+In this part of Exercise 2, I trained the Multi-Layer Perceptron (MLP) on the MNIST dataset for 20 epochs and then created four plots to visualize the training process. The plots included: (a) Test accuracy vs. epochs, (b) Training accuracy vs. epochs, (c) Test loss vs. epochs, and (d) Training loss vs. epochs. These plots helped me understand the model's behavior during training and testing.
+
+\section{Exercise 2, Question 2: Results and Analysis}
+The results of the training process are shown in Figure \ref{fig:mlp_training_plots}. Based on these plots, I made several observations:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mlp_training_plots.png}
+    \caption{Training and Test Accuracy and Loss Plots for MLP on MNIST}
+    \label{fig:mlp_training_plots}
+\end{figure}
+
+\subsection{Test Accuracy vs. Epochs}
+The test accuracy fluctuated during training, ranging between approximately 98.35\% and 98.65\%. This fluctuation suggests that the model had some difficulty generalizing consistently on the test set, which might indicate some overfitting to the training data.
+
+\subsection{Training Accuracy vs. Epochs}
+The training accuracy steadily increased over the epochs, approaching 100\% by the end of training. This indicates that the model was able to learn the training data very well. However, the nearly perfect training accuracy compared to the fluctuating test accuracy is a potential sign of overfitting.
+
+\subsection{Test Loss vs. Epochs}
+The test loss showed several peaks and valleys throughout the training process, which further indicates inconsistent performance on unseen data. Ideally, the test loss should decrease steadily if the model is generalizing well.
+
+\subsection{Training Loss vs. Epochs}
+The training loss decreased consistently, reaching very low values by the end of training. This aligns well with the high training accuracy that the model achieved.
+\section{Exercise 2, Question 2: Conclusion}
+Overall, the results show that the MLP model fits the training data very well, with almost perfect training accuracy. However, the fluctuations in test accuracy and test loss suggest that the model may be overfitting. 
+
+\section{Exercise 2, Question 3: Introduction}
+In this part of Exercise 2, Question 3, I compared the training and test accuracy of the MLP and VGG11 models on the MNIST dataset. The comparison shows some interesting observations regarding the performance of both models.
+
+\section{Exercise 2, Question 3: Results and Analysis}
+Firstly, from the bar plot that shows the final training and test accuracies (Figure \ref{fig:mlp_vgg11_comparison}), I noticed that the MLP model achieved almost perfect training accuracy, which is close to 100\%. However, its test accuracy was a bit lower, indicating that there might be some overfitting happening. This means the model learned the training data very well but was not as good when it needed to generalize to new, unseen data.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mlp_vs_vgg11_train_test_accuracy_comparison.png}
+    \caption{Final Training and Test Accuracy Comparison: MLP vs VGG11 on MNIST}
+    \label{fig:mlp_vgg11_comparison}
+\end{figure}
+
+On the other hand, the VGG11 model also achieved very high training and test accuracies. But, unlike the MLP model, the difference between the train and test accuracies is very small. This tells me that VGG11 generalizes better to the test data, showing less overfitting compared to the MLP.
+
+In the line plot (Figure \ref{fig:vgg11_mlp_accuracy}), which shows the accuracy over the training epochs, it is clear that both models perform well. The MLP model, however, had a bit more fluctuation in its accuracy, while VGG11's accuracy remained more stable throughout the training. This stability means that VGG11 is better at consistently improving over epochs without sudden drops, which is a good sign of effective training.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{vgg11_vs_mlp_accuracy.png}
+    \caption{Comparison of Training and Test Accuracies: VGG11 vs MLP on MNIST}
+    \label{fig:vgg11_mlp_accuracy}
+\end{figure}
+
+\subsection{Overall Comparison}
+It seems that VGG11 slightly outperformed MLP in terms of both accuracy and stability. This result makes sense because VGG11 is a more complex convolutional model, which is generally better suited for image classification tasks like MNIST. The MLP model still did a good job, but it showed some signs of overfitting and was a bit less stable compared to VGG11.
+
+\section{Exercise 2, Question 4: Introduction}
+In this part of Exercise 2, I modified the architecture of the Multi-Layer Perceptron (MLP) and trained it on the MNIST dataset for 20 epochs. The modifications involved adding additional fully connected layers, as well as introducing Batch Normalization and extra ReLU activations to the network. This modification aimed to improve the model's performance by enhancing its learning capacity and reducing overfitting.
+
+\section{Exercise 2, Question 4: Results and Analysis}
+The results of the modified MLP training process are shown in Figures \ref{fig:modified_mlp_accuracy} and \ref{fig:modified_mlp_loss}. Based on these plots, I made several observations:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{modified_mlp_accuracy.png}
+    \caption{Training and Test Accuracy of Modified MLP on MNIST}
+    \label{fig:modified_mlp_accuracy}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{modified_mlp_loss.png}
+    \caption{Training and Test Loss of Modified MLP on MNIST}
+    \label{fig:modified_mlp_loss}
+\end{figure}
+
+\subsection{Accuracy and Loss of Modified MLP}
+The modified MLP showed consistent improvement in training accuracy over the epochs, reaching a value close to 100\%. The test accuracy, on the other hand, remained slightly lower but showed stable performance. The training and test loss also decreased over time, indicating that the model was successfully minimizing its error on both the training and validation data.
+
+\subsection{Comparison with Original MLP}
+Figure \ref{fig:mlp_comparison} shows the comparison between the original MLP and the modified MLP. The modified MLP achieved higher training accuracy compared to the original model, indicating that it was better at learning the training data. Additionally, the modified model also achieved improved test accuracy, showing a notable difference compared to the original MLP. This indicates that the changes made to the architecture helped the model generalize better on unseen data.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mlp_vs_modified_mlp_accuracy.png}
+    \caption{Comparison of Training and Test Accuracies: Original MLP vs Modified MLP on MNIST}
+    \label{fig:mlp_comparison}
+\end{figure}
+
+\section{Exercise 2, Question 4: Conclusion}
+Overall, the modifications to the MLP model resulted in improved training accuracy and higher test accuracy. The addition of more layers and Batch Normalization helped the model better learn from the training data while also improving generalization capabilities. The gains in test accuracy suggest that the architectural changes positively impacted the model's performance on unseen data, making it a more robust solution compared to the original MLP.
+
+
 
 
 \section{References}
