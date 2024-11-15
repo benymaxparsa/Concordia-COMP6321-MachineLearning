@@ -1,0 +1,392 @@
+\documentclass[10pt,letter,notitlepage]{article}
+%Mise en page
+\usepackage[left=2cm, right=2cm, lines=45, top=0.8in, bottom=0.7in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{pdfpages} 
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\pagestyle{fancy}
+\newcommand\Loadedframemethod{TikZ}
+\usepackage[framemethod=\Loadedframemethod]{mdframed}
+\usepackage{tikz}
+%\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+%\usepackage{url}
+\usepackage{dsfont}
+\usepackage{amssymb,amsmath}
+\usepackage{xspace}
+\usepackage{comment}
+\usepackage[shortlabels]{enumitem}
+
+
+
+\usepackage{xcolor}
+
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\lhead{
+\textbf{Concordia University}
+}
+\rhead{\textbf{Fall 2024}
+}
+\chead{\textbf{
+COMP6321
+ }}
+
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\zero}{\mathbf{0}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\rv}{\mathbf{r}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+\newcommand{\bits}{\{ 0, 1 \}}
+
+
+\newcommand{\ea}{{et al.}\xspace}
+\newcommand{\eg}{{e.g.}\xspace}
+\newcommand{\ie}{{i.e.}\xspace}
+\newcommand{\iid}{{i.i.d.}\xspace}
+\newcommand{\cf}{{cf.}\xspace}
+\newcommand{\wrt}{{w.r.t.}\xspace}
+\newcommand{\aka}{{a.k.a.}\xspace}
+\newcommand{\etc}{{etc.}\xspace}
+
+\newcommand{\ans}[1]{{\color{orange}\textsf{Ans}: #1}}
+
+
+\lfoot{}
+\cfoot{\textbf{Parsa Kamalipour (\href{mailto:parsa.kamalipour@mail.concordia.ca}{parsa.kamalipour@mail.concordia.ca}) \textcopyright 2024}}
+
+%================================
+%================================
+
+\setlength{\parskip}{1cm}
+\setlength{\parindent}{1cm}
+\tikzstyle{titregris} =
+[draw=gray,fill=white, shading = exersicetitle, %
+text=gray, rectangle, rounded corners, right,minimum height=.3cm]
+\pgfdeclarehorizontalshading{exersicebackground}{100bp}
+{color(0bp)=(green!40); color(100bp)=(black!5)}
+\pgfdeclarehorizontalshading{exersicetitle}{100bp}
+{color(0bp)=(red!40);color(100bp)=(black!5)}
+\newcounter{exercise}
+\renewcommand*\theexercise{exercice \textbf{Exercice}~n\arabic{exercise}}
+\makeatletter
+\def\mdf@@exercisepoints{}%new mdframed key:
+\define@key{mdf}{exercisepoints}{%
+\def\mdf@@exercisepoints{#1}
+}
+
+\mdfdefinestyle{exercisestyle}{%
+outerlinewidth=1em,outerlinecolor=white,%
+leftmargin=-1em,rightmargin=-1em,%
+middlelinewidth=0.5pt,roundcorner=3pt,linecolor=black,
+apptotikzsetting={\tikzset{mdfbackground/.append style ={%
+shading = exersicebackground}}},
+innertopmargin=0.1\baselineskip,
+skipabove={\dimexpr0.1\baselineskip+0\topskip\relax},
+skipbelow={-0.1em},
+needspace=0.5\baselineskip,
+frametitlefont=\sffamily\bfseries,
+settings={\global\stepcounter{exercise}},
+singleextra={%
+\node[titregris,xshift=0.5cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+firstextra={%
+\node[titregris,xshift=1cm] at (P-|O) %
+{~\mdf@frametitlefont{\theexercise}~};
+\ifdefempty{\mdf@@exercisepoints}%
+{}%
+{\node[titregris,left,xshift=-1cm] at (P)%
+{~\mdf@frametitlefont{\mdf@@exercisepoints points}~};}%
+},
+}
+\makeatother
+
+
+%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+\mdfdefinestyle{theoremstyle}{%
+outerlinewidth=0.01em,linecolor=black,middlelinewidth=0.5pt,%
+frametitlerule=true,roundcorner=2pt,%
+apptotikzsetting={\tikzset{mfframetitlebackground/.append style={%
+shade,left color=white, right color=blue!20}}},
+frametitlerulecolor=black,innertopmargin=1\baselineskip,%green!60,
+innerbottommargin=0.5\baselineskip,
+frametitlerulewidth=0.1pt,
+innertopmargin=0.7\topskip,skipabove={\dimexpr0.2\baselineskip+0.1\topskip\relax},
+frametitleaboveskip=1pt,
+frametitlebelowskip=1pt
+}
+\setlength{\parskip}{0mm}
+\setlength{\parindent}{10mm}
+\mdtheorem[style=theoremstyle]{exercise}{\textbf{Exercise}}
+\mdtheorem[style=theoremstyle]{Answer}{\textbf{Answers to Exercise}}
+%================Liste definition--numList-and alphList=============
+\newcounter{alphListCounter}
+\newenvironment
+{alphList}
+{\begin{list}
+{\alph{alphListCounter})}
+{\usecounter{alphListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0.2cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+\newcounter{numListCounter}
+\newenvironment
+{numList}
+{\begin{list}
+{\arabic{numListCounter})}
+{\usecounter{numListCounter}
+\setlength{\rightmargin}{0cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\itemsep}{0cm}
+\setlength{\partopsep}{0cm}
+\setlength{\parsep}{0cm}}
+}
+{\end{list}}
+
+\usepackage[breaklinks=true,letterpaper=true,linkcolor=magenta,urlcolor=magenta,citecolor=black]{hyperref}
+
+\usepackage{cleveref}
+
+
+%===========================================================
+\begin{document}
+
+\begin{center}
+  \large{\textbf{COMP 6321 Machine Learning} \\ Assignment 2 Answers} \\
+
+
+$Name:$ \href{https://benymaxparsa.github.io}{Parsa Kamalipour} \; , \; $Student ID:$ 40310734
+
+\end{center}
+%\begin{center}
+%\begin{itemize}
+%    
+%
+%\item  Submit your write-up in PDF (we do not accept hand-written submissions) and all source code %in a zip file (with proper documentation)
+%as an ipynb file (with proper documentation). Your writeup should include written answers to all questions, including the reported results and plots of coding questions in a single PDF file.  Please save the output of each cell or your coding questions may NOT be graded. Write a script for each programming exercise so the TAs can easily run and verify your results. Make sure your code runs!
+%
+%\item Text in square brackets are hints that can be ignored.
+%%\end{center}
+%\end{itemize}
+%\noindent \red{NOTE} For all the exercises, you are only allowed to use the basic Python, Numpy, and matplotlib (or other libraries for plotting), unless specified otherwise.
+
+\begin{exercise}[Regression Implementation (9 pts)]
+Recall that ridge regression refers to
+\begin{align}
+  \min_{\wv\in \RR^d, b\in \RR} ~ \overbrace{\underbrace{\tfrac{1}{2n} \|X \wv+ b\one - \yv\|_2^2}_{\mbox{error}} + \lambda \|\wv\|_2^2}^{\mbox{loss}}, \label{eq:regression}
+\end{align}
+where $X \in \RR^{n \times d}$ and $\yv \in \RR^n$ are the given dataset and $\lambda \geq 0$ is the regularization hyperparameter.
+If $\lambda = 0$, then this is the standard linear regression problem.
+  Observe the distinction between the error (which does not include the regularization term) and the loss (which does).
+
+\begin{enumerate}
+  \item (1.75 pts) Show that ridge regression can be rewritten as a non-regularized linear regression problem with data augmentation. 
+  That is, prove \ref{eq:regression} is equivalent to 
+\begin{align}
+  \min_{\wv\in \RR^d, b\in \RR} ~ \tfrac{1}{2n} \left\|\begin{bmatrix}
+X & \one_n \\
+    \sqrt{2\lambda n}I_d & \zero_d
+    \end{bmatrix} \begin{bmatrix} \wv  \\ b\end{bmatrix}  - \begin{bmatrix}\yv \\ \zero_d\end{bmatrix}\right\|_2^2 , 
+\end{align}
+where $I_d$ is the $d$-dimensional identity matrix, and $\zero_k$ and $\one_k$ are zero and one column vectors in $k$ dimensions.
+
+\item (2.25 pts) Implement the Ridge regression algorithm using the closed form solution for linear regression. \textcolor{red}{Do not use any library like Scikit Learn that already has linear regression implemented.} Feel free to use general libraries for array and matrix operations such as numpy. You may find the function \texttt{numpy.linalg.solve} useful. Test Ridge regression implementation on the Boston \href{http://lib.stat.cmu.edu/datasets/boston}{\textsf{\magenta{housing}}} dataset (to predict the median house price, \ie, $y$). Use the train and test splits provided on Moodle. Try $\lambda \in \{0, 0.25, 0.5, 0.75, 1\}$ and report your training error, and test error for each. 
+
+\item (2.25 pts) Repeat step 2 but solve Ridge regression using the gradient descent algorithm. Try $\lambda \in \{0, 0.25, 0.5, 0.75, 1\}$ and report your training error, and test error for each.
+
+\item (2.25 pts) Repeat step 3, but this time solve Lasso regression using gradient descent. For Lasso regression, the regularization term in equation (1) is $\lambda ||w||_2$ i.e. you only have the norm and not the square of the norm. Try $\lambda \in \{0, 0.25, 0.5, 0.75, 1\}$ and report your training error, and test error for each.
+
+\item (0.25 pts) Do you think gradient descent is better than the closed form solution of Ridge regression? Explain why.
+
+\item (0.25 pts) Print the $\theta$ values found using gradient descent for both Ridge and Lasso regression. Are these two values different? If so, can you explain how the Lasso and Ridge regression algorithms affected the $\theta$ values?
+\end{enumerate}
+\end{exercise}
+
+
+\begin{Answer}
+
+	\section*{Part 1}
+Given the Ridge Regression objective function:
+\[
+\min_{w \in \mathbb{R}^d, b \in \mathbb{R}} \left( \frac{1}{2n} \| Xw + b\mathbf{1}_n - y \|_2^2 + \lambda \| w \|_2^2 \right)
+\]
+we need to show that it can be rewritten as a non-regularized linear regression problem using data augmentation, specifically:
+\[
+\min_{w \in \mathbb{R}^d, b \in \mathbb{R}} \frac{1}{2n} \left\| 
+\begin{bmatrix} 
+X \\
+\sqrt{2\lambda}I_d
+\end{bmatrix}
+\begin{bmatrix}
+w \\
+b
+\end{bmatrix} -
+\begin{bmatrix}
+y \\
+0_d
+\end{bmatrix}
+\right\|_2^2
+\]
+where \( I_d \) is the identity matrix of size \( d \times d \) and \( 0_d \) is a zero vector of length \( d \).
+
+\subsection*{Step 1: Breakdown of the Original Objective Function}
+The given Ridge Regression objective function consists of two parts:
+
+- The error term: \( \frac{1}{2n} \| Xw + b\mathbf{1}_n - y \|_2^2 \), which measures the difference between the predicted and actual outputs.
+
+- The regularization term: \( \lambda \| w \|_2^2 \), which penalizes the magnitude of the weights.
+
+We need to rewrite this objective in a form that includes the regularization term as part of the least squares problem by augmenting the data.
+
+\subsection*{Step 2: Regularization and Augmentation}
+To incorporate the regularization term \( \lambda \| w \|_2^2 \) into the least squares framework, we augment both the input matrix \( X \) and the target vector \( y \).
+
+\paragraph{Augmenting the input matrix:}
+We append \( \sqrt{2\lambda} \cdot I_d \) to the original data matrix \( X \), ensuring that the regularization term is treated like a squared error in the new least squares formulation. The augmented input matrix \( \tilde{X} \) becomes:
+\[
+\tilde{X} = \begin{bmatrix} 
+X \\ 
+\sqrt{2\lambda}I_d
+\end{bmatrix}
+\]
+
+\paragraph{Augmenting the target vector:}
+We also augment the target vector \( y \) by appending a zero vector \( 0_d \) (of dimension \( d \)) to ensure that the regularization term does not affect the bias term \( b \). The augmented target vector \( \tilde{y} \) is:
+\[
+\tilde{y} = \begin{bmatrix} 
+y \\ 
+0_d
+\end{bmatrix}
+\]
+
+\subsection*{Step 3: Substituting the Augmented Data}
+Now, we substitute the augmented input matrix \( \tilde{X} \) and augmented target vector \( \tilde{y} \) into the Ridge Regression objective function:
+\[
+L(w, b) = \frac{1}{2n} \left\| 
+\tilde{X}
+\begin{bmatrix}
+w \\
+b
+\end{bmatrix} -
+\tilde{y}
+\right\|_2^2
+\]
+Expanding this:
+\[
+L(w, b) = \frac{1}{2n} \left\| 
+\begin{bmatrix} 
+X \\
+\sqrt{2\lambda} \cdot I_d
+\end{bmatrix}
+\begin{bmatrix}
+w \\
+b
+\end{bmatrix} -
+\begin{bmatrix}
+y \\
+0_d
+\end{bmatrix}
+\right\|_2^2
+\]
+
+\subsection*{Step 4: Replacing \( X \) and \( y \) in the Formula}
+We can further break this down into two components:
+- \( Xw + b\mathbf{1}_n - y \) represents the least squares error between the predicted values and the target \( y \).
+- \( \sqrt{2\lambda} \cdot I_d \cdot w - 0_d \) represents the regularization term \( \lambda \| w \|_2^2 \), ensuring that the weights \( w \) are penalized without affecting the bias \( b \).
+
+Thus, the augmented least squares problem now accounts for both the error term and the regularization term.
+
+
+\section*{Other questions}
+	Please look at the ParsaKamalipour\_COMP6321\_A2.ipynb file to read the answer to rest of the questions.
+
+
+\end{Answer}
+
+
+
+% --------------------------------------------------------------------------------------------------------
+
+
+\begin{exercise}[Decision Trees (7 pts)]
+    In this exercise, you will implement decision trees for binary classification.
+  Use the provided stub files for training and test data.
+
+  Recall: decision trees are constructed by repeatedly splitting of nodes.
+  We split a node by measuring the loss of splitting with respect to each possible feature and threshold, and split based on the feature and threshold that minimizes this loss.
+  Mathematically:
+  \[X_L = \{x\ :\ x \in X \wedge  x[i] \leq j\},\]
+  \[X_R = \{x\ :\ x \in X \wedge  x[i] > j\},\]
+  where $x[i]$ is the $i$th coordinate of point $x$.
+  The vector of labels $y$ is split into vectors $y_L$ and $y_R$ using the same indices.
+
+  The loss of splitting a training dataset into a left and right half is computed as 
+  \[\ell(X,y,i,j) = \frac{|y_L|}{|y|}\ell(y_L) + \frac{|y_R|}{|y|}\ell(y_R) \]
+
+  We will consider the following loss functions $\ell$, specialized for binary classification.\footnote{Note that these are slightly different from what we discussed in class, since we are only focusing on binary classification. Additionally, there was some implicit rescaling which we omit here.}
+  Define $\hat p$ for a vector of labels $y$ to be $\frac{|\{y_j = 1 : y_j \in y\}|}{|y|}$, that is, the fraction of labels which are $1$.
+  We have the following three loss functions.
+
+  \noindent Misclassification error:
+  \[\min \{\hat p, 1-\hat p\}\]
+  Gini coefficient:
+  \[\hat p (1 - \hat p)\]
+  Entropy:
+  \[- \hat p \log_2 (\hat p) - (1 - \hat p) \log_2 (1 - \hat p ) \]
+
+  We do not split a node if it is pure (i.e., consists entirely of either $0$'s or $1$'s), or if a split would exceed a maximum depth hyperparameter provided to the decision tree (recall that the depth of a single-node tree is $0$).
+
+
+
+  \begin{enumerate}
+    \item (6 pts) Implement and train decision trees on the provided dataset. Create a different plot for each of the three loss functions (misclassification error, Gini index, and entropy). The x-axis of each plot should show the maximum depth of the tree (starting from 0), and the y-axis should indicate the accuracy. Include two trend lines, one for the training accuracy and test accuracy. 
+    \item (1 pt) Observe and comment on how the different loss functions perform, and how train and test accuracy change as a function of the maximum depth.
+  \end{enumerate} 
+\end{exercise}
+
+
+% --------------------------------------------------------------------------------------------------------
+
+
+
+\begin{Answer}
+
+	Please look at the ParsaKamalipour\_COMP6321\_A2.ipynb file to read the answer to rest of the questions.
+
+\end{Answer}
+
+% --------------------------------------------------------------------------------------------------------
+
+
+\vspace{+0.5cm}
+
+%\par \textbf{Acknowledgement}\\
+
+%I would like to acknowledge that I used ChatGPT to help \underline{refine my grammar and sentence structure} in this document. However, the \underline{solutions and ideas presented here are entirely my own}. 
+
+
+\end{document}
+              
